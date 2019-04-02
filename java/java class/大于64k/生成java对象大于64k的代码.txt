@@ -1,0 +1,17 @@
+https://js.do/
+<script>
+
+var str1 = 'public static String fun';
+        var str4;
+        var str2 = '(){ '+'<br/>'+
+        'return "fun';
+        
+        var str3 = '"; '+'<br/>'+
+        '}';
+        for(var i=0;i<9999;i++){
+            str4 = str1+i+str2+i+str3+'<br/>';
+            document.write(str4);
+        }
+
+        
+</script>

@@ -1,0 +1,42 @@
+create table t_lob
+(
+    ID NUMBER,
+    NAME VARCHAR(30),
+    CONTENTS CLOB NOT NULL
+);
+insert into t_lob values(1,'EMPTY LOB',EMPTY_CLOB());
+commit;
+SQL> select id,dbms_lob.getLength(contents) from t_lob order by id
+  2  /
+
+	ID DBMS_LOB.GETLENGTH(CONTENTS)
+---------- ----------------------------
+	 1			      0
+
+
+insert into t_lob values(
+4,
+'4kb lob',
+(SELECT dbms_random.string ('U', 4000) FROM DUAL)
+);
+
+
+UPDATE T_LOB SET CONTENTS = (SELECT dbms_random.string ('L', 400) FROM DUAL);
+commit;
+
+create table t_lob
+(
+    ID NUMBER,
+    NAME VARCHAR(30),
+    CONTENTS CLOB
+);
+insert into t_lob(id,name) values(1,'EMPTY LOB');
+commit;
+
+
+SQL> select id,dbms_lob.getLength(contents) from t_lob order by id;
+
+	ID DBMS_LOB.GETLENGTH(CONTENTS)
+---------- ----------------------------
+	 1
+

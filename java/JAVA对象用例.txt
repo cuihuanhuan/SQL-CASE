@@ -1,0 +1,28 @@
+https://docs.oracle.com/cd/B12037_01/server.101/b10759/statements_5012.htm#BABDCBBG
+
+CREATE JAVA CLASS USING BFILE (bfile_dir, 'Agent.class');
+
+CREATE JAVA SOURCE NAMED "Hello" AS
+   public class Hello {
+      public static String hello() {
+         return "Hello World";   } };
+		 
+		 
+CREATE JAVA RESOURCE NAMED "appText" 
+   USING BFILE (bfile_dir, 'textBundle.dat');
+
+https://docs.oracle.com/cd/B28359_01/server.111/b28286/statements_5013.htm#SQLRF01211
+
+CREATE JAVA CLASS USING BFILE (java_dir, 'Agent.class')
+
+
+CREATE JAVA SOURCE NAMED "Welcome" AS
+   public class Welcome {
+      public static String welcome() {
+         return "Welcome World";   } }
+/
+
+
+CREATE JAVA RESOURCE NAMED "appText" 
+   USING BFILE (java_dir, 'textBundle.dat')
+/

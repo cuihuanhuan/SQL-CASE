@@ -1,0 +1,48 @@
+﻿drop table lob1;
+
+create table lob1
+(
+id number ,
+name char(10),
+time date,
+f1 varchar2(4000),
+f2 varchar2(2000),
+f3 nchar(100),
+f4 long raw,
+f5 raw(1000),
+f7 BLOB,
+f8 CLOB,
+f9 NCLOB,
+f10 NUMBER(38,38),
+f11 DECIMAL(38,38),
+f12 integer,
+f13 float,
+f14 real
+)
+/
+begin 
+    for i in 1..50
+    loop
+insert into lob1  values
+(
+i,
+'test',
+sysdate,
+'bushiba zheme chang de zhiduan a ,zenmedachulaine !!@',
+'na hao ba ,wo jiu shi zhem e de wude ,hahah zheci jiuneng wancheng le ',
+'shi zhende ba ,en wo lianxile yige bishouzei',
+ hextoraw('ff'),
+ hextoraw('ff'),
+ hextoraw('bbbb'),
+'clob....',
+'nclob...',
+0.1,
+0.2,
+3,
+4.4,
+5
+);
+commit;
+    end loop;   
+end;
+/

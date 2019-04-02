@@ -1,0 +1,97 @@
+﻿1.规则增量状态:备端新建表formtable_main_422,并插入数据
+create table formtable_main_422(
+ ID                        NUMBER(38) NOT NULL,
+ REQUESTID                        NUMBER(38),
+ XTJL                            CLOB,
+ XMJL                            CLOB,
+ BMFZR                            NUMBER(38),
+ RZF                            VARCHAR2(999),
+ GM                            VARCHAR2(30),
+ QX                            VARCHAR2(100),
+ RZCB                            VARCHAR2(100),
+ BCL                            VARCHAR2(100),
+ ZZFX                            CHAR(1),
+ YHDX                            CHAR(1),
+ DJJG                            CHAR(1),
+ LXBG                            VARCHAR2(4000),
+ SPYJ                            VARCHAR2(4000),
+ JBBM                            NUMBER(38),
+ YWMC                            VARCHAR2(4000),
+ ZXCS                            VARCHAR2(4000),
+ JKCS                            VARCHAR2(4000),
+ ZJYYFS                         VARCHAR2(4000),
+ LS                            NUMBER(38),
+ PSY                            NUMBER(38),
+ TJFX                            NUMBER(38));
+ SELECT dbms_random.string ('U', 3000) FROM DUAL;
+ insert into formtable_main_422 (ID,XTJL)values(
+ 1, NULL);
+ 
+ UPDATE formtable_main_422 SET XTJL= (SELECT dbms_random.string ('U', 3000) FROM DUAL);
+ commit;--备端不commit肯定报错
+ 
+2.重启规则
+3.源端新建表formtable_main_422并插入记录
+create table formtable_main_422(
+ ID                        NUMBER(38) NOT NULL,
+ REQUESTID                        NUMBER(38),
+ XTJL                            CLOB,
+ XMJL                            CLOB,
+ BMFZR                            NUMBER(38),
+ RZF                            VARCHAR2(999),
+ GM                            VARCHAR2(30),
+ QX                            VARCHAR2(100),
+ RZCB                            VARCHAR2(100),
+ BCL                            VARCHAR2(100),
+ ZZFX                            CHAR(1),
+ YHDX                            CHAR(1),
+ DJJG                            CHAR(1),
+ LXBG                            VARCHAR2(4000),
+ SPYJ                            VARCHAR2(4000),
+ JBBM                            NUMBER(38),
+ YWMC                            VARCHAR2(4000),
+ ZXCS                            VARCHAR2(4000),
+ JKCS                            VARCHAR2(4000),
+ ZJYYFS                         VARCHAR2(4000),
+ LS                            NUMBER(38),
+ PSY                            NUMBER(38),
+ TJFX                            NUMBER(38));
+
+ insert into formtable_main_422 (ID,XTJL)values(
+ 1, NULL);
+ 
+ UPDATE formtable_main_422 SET XTJL= (SELECT dbms_random.string ('U', 3000) FROM DUAL);
+ 
+begin 
+    for i in 300..308
+    loop
+    insert into formtable_main_422 values(
+ i,
+ 2,
+ (SELECT dbms_random.string ('U', 3000) FROM DUAL),
+ (SELECT dbms_random.string ('A', 3000) FROM DUAL),
+ 3,
+ (SELECT dbms_random.string ('U', 900) FROM DUAL),
+ (SELECT dbms_random.string ('U', 10) FROM DUAL),
+ (SELECT dbms_random.string ('U', 90) FROM DUAL),
+ (SELECT dbms_random.string ('U', 90) FROM DUAL),
+ (SELECT dbms_random.string ('U', 90) FROM DUAL),
+ 'A',
+ 'C',
+ 'C',
+ (SELECT dbms_random.string ('U', 900) FROM DUAL),
+ (SELECT dbms_random.string ('U', 900) FROM DUAL),
+ 4,
+ (SELECT dbms_random.string ('U', 900) FROM DUAL),
+ (SELECT dbms_random.string ('U', 900) FROM DUAL),
+ (SELECT dbms_random.string ('U', 900) FROM DUAL),
+ (SELECT dbms_random.string ('U', 900) FROM DUAL),
+ 5,
+ 6,
+ 7
+ );
+    commit;
+    end loop;   
+end;
+/
+4.备端报错,两边数据不一致

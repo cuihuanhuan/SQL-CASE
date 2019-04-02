@@ -1,0 +1,55 @@
+select * from dba_directories;
+create directory java_dir as '/u01/';
+SQL> create java resource named "Hello" using bfile(java_dir,'Hello.java');
+    /
+
+Java created.
+
+SQL> create java class using BFILE(java_dir,'People.class');
+  2  /
+
+Java created.
+
+SQL> create or replace function fun20 Return VARCHAR2 AS LANGUAGE JAVA NAME 'People.fun20() return java.lang.String';
+  2  /
+
+Function created.
+
+
+
+SQL> drop java resource "People";
+
+Java dropped.
+
+SQL> create java resource named "People" using bfile(java_dir,'People.java');
+  2  /
+
+Java created.
+
+SQL> create java class using BFILE(java_dir,'Huan.class');
+  2  /
+
+Java created.
+
+SQL> create or replace function test_fun20 Return VARCHAR2 AS LANGUAGE JAVA NAME 'Test_64.fun20() return java.lang.String';
+  2  /
+
+Function created.
+
+SQL> VARIABLE myString VARCHAR2(20);
+SQL> CALL test_fun20() into:myString;
+CALL fun20() into:myString
+     *
+ERROR at line 1:
+ORA-29549: class HUAN2.People has changed, Java session state cleared
+
+
+SQL> CALL fun20() into:myString;
+
+Call completed.
+
+SQL> print myString;
+
+MYSTRING
+--------------------------------
+fun20

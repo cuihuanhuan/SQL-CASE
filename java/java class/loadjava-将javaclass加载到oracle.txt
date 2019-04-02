@@ -1,0 +1,86 @@
+删除java class
+DROP JAVA CLASS "Agent";
+
+注意事项：在windows上下载jdk1.4,编译好java文件移动到linux上。
+oracle自带的jdk版本是1.4,用最新的jdk,提示版本不支持
+
+SUSE:JiaDing/root/Desktop$loadjava -user huan2 Hello.class
+
+Password:
+******
+
+
+
+SQL> show user
+USER is "HUAN2"
+
+
+create or replace function fun20 Return VARCHAR2 AS LANGUAGE JAVA NAME 'People.fun20() return java.lang.String';
+
+SQL> create or replace function helloworld Return VARCHAR2 AS LANGUAGE JAVA NAME 'Hello.world() return java.lang.String';
+  2  /
+
+Function created.
+
+SQL> VARIABLE myString VARCHAR2(20);
+SQL> CALL fun20() into:myString;
+
+Call completed.
+
+SQL> print myString;
+
+MYSTRING
+--------------------------------
+Hello world
+
+SQL> 
+
+
+
+
+SQL> drop java resource "Hello";
+
+Java dropped.
+
+SQL> drop java class "People";
+
+Java dropped.
+
+SQL> drop java resource "People";
+
+Java dropped.
+
+SQL> create java resource named "People" using bfile(java_dir,'People.java');
+  2  /
+
+Java created.
+
+SQL> create java class using BFILE(java_dir,'People.class');
+  2  /
+
+Java created.
+
+SQL> create or replace function fun20 Return VARCHAR2 AS LANGUAGE JAVA NAME 'People.fun20() return java.lang.String';
+  2  /
+
+Function created.
+
+SQL> VARIABLE myString VARCHAR2(20);
+SQL> CALL fun20() into:myString;
+CALL fun20() into:myString
+     *
+ERROR at line 1:
+ORA-29549: class HUAN2.People has changed, Java session state cleared
+
+
+SQL> CALL fun20() into:myString;
+
+Call completed.
+
+SQL> print myString;
+
+MYSTRING
+--------------------------------
+fun20
+
+SQL> 

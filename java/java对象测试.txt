@@ -1,0 +1,71 @@
+create or replace and compile java source named tony as
+public class tony
+{
+  public static String getStrMsg(String str)
+  {
+     return str+"\t "+str.length();
+  }
+}
+/
+
+
+create or replace function javaTest(str varchar2)
+return varchar2 as
+LANGUAGE JAVA NAME 'tony.getStrMsg(java.lang.String) return java.lang.String';
+/
+
+
+select javatest('abcd') from dual ;
+
+
+select object_name,status from user_objects where object_type='JAVA SOURCE'
+/
+
+select object_name,status from user_objects where object_type='JAVA CLASS'
+/
+
+
+select object_name,status from user_objects where object_type='JAVA RESOURCE'
+/
+
+
+SQL> alter java class "Why" resolve;
+
+Java altered.
+
+SQL> select object_name,status from user_objects where object_type='JAVA CLASS'
+/
+  2  
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+People
+VALID
+
+Test_64
+INVALID
+
+Huan
+INVALID
+
+
+OBJECT_NAME
+--------------------------------------------------------------------------------
+STATUS
+-------
+Why
+VALID
+
+
+SQL> 
+SQL> 
+SQL> alter java class "Huan" resolve;
+
+Java altered.
+
+SQL> alter java class "Test_64" resolve;
+
+Java altered.
+
+SQL>          

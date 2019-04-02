@@ -1,0 +1,29 @@
+﻿create table formtable_main_422(
+ ID                        NUMBER(38) NOT NULL,
+ REQUESTID                        NUMBER(38),
+ XTJL                            CLOB,
+ XMJL                            CLOB,
+ BMFZR                            NUMBER(38),
+ RZF                                VARCHAR2(999),
+ GM                            VARCHAR2(30),
+ QX                            VARCHAR2(100),
+ RZCB                            VARCHAR2(100),
+ BCL                            VARCHAR2(100),
+ ZZFX                            CHAR(1),
+ YHDX                            CHAR(1),
+ DJJG                            CHAR(1),
+ LXBG                            VARCHAR2(4000),
+ SPYJ                            VARCHAR2(4000),
+ JBBM                            NUMBER(38),
+ YWMC                            VARCHAR2(4000),
+ ZXCS                            VARCHAR2(4000),
+ JKCS                            VARCHAR2(4000),
+ ZJYYFS                         VARCHAR2(4000),
+ LS                            NUMBER(38),
+ PSY                            NUMBER(38),
+ TJFX                            NUMBER(38)); 
+
+
+insert into formtable_main_422 (ID,XTJL)values(1, NULL);
+UPDATE formtable_main_422 SET XTJL= (SELECT dbms_random.string ('U', 3000) FROM DUAL);
+commit;

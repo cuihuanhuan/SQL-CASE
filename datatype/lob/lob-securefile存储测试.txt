@@ -1,0 +1,81 @@
+﻿create table contracts_sec 
+(
+        contract_id     number(12),
+        contract_name   varchar2(80),
+        file_size       number,
+        orig_file       blob
+)
+tablespace users
+lob (orig_file)
+                               
+store as securefile
+(
+        tablespace users
+        enable storage in row
+        chunk 4096
+        pctversion 20
+        nocache
+        nologging
+)
+/
+
+create directory secfile as '/opt/oracle';
+
+--在/opt/oracle下新建contract.pdf文件
+
+declare
+    l_size      number;  
+    l_file_ptr  bfile;   
+    l_blob      blob;    
+begin
+    l_file_ptr := bfilename('SECFILE', 'contract.pdf'); 
+    dbms_lob.fileopen(l_file_ptr); 
+    l_size := dbms_lob.getlength(l_file_ptr); 
+    for ctr in 1 .. 100 loop 
+        insert into contracts_sec 
+        (        
+            contract_id, 
+            contract_name, 
+            file_size,   
+            orig_file    
+        )        
+        values   
+        (        
+            ctr,         
+            'Contract '||ctr, 
+            null,        
+            empty_blob() 
+        )        
+        returning orig_file into l_blob;  
+        dbms_lob.loadfromfile(l_blob, l_file_ptr, l_size); 
+    end loop; 
+    commit; 
+    dbms_lob.close(l_file_ptr); 
+end;
+/
+
+
+源端日志：
+018-05-22 17:16:11 err 405E4CFF-7EA3-274B-C4E4-18267D004F1C Txn.cpp::GatherLob:632 Not find Lob!
+2018-05-22 17:16:11 warn 405E4CFF-7EA3-274B-C4E4-18267D004F1C Txn.cpp::MergeLobCol:607 LobID 281474979250606 not found
+2018-05-22 17:16:11 warn 405E4CFF-7EA3-274B-C4E4-18267D004F1C Txn.cpp::MergeLobCol:508 lob check len is 13, need notice!!
+
+备端日志：
+2018-05-22 17:19:30 info 405E4CFF-7EA3-274B-C4E4-18267D004F1C DynLd[0] execute the DDL sql ok. sql: 
+ CREATE  TABLE "HUAN2"."CONTRACTS_SEC" ( 
+    "CONTRACT_ID" 		NUMBER(12),
+   "CONTRACT_NAME" 		VARCHAR2 (80),
+   "FILE_SIZE" 		NUMBER,
+   "ORIG_FILE" 		BLOB 
+) 
+   TABLESPACE "USERS" NOPARALLEL  
+2018-05-22 17:19:31 info 405E4CFF-7EA3-274B-C4E4-18267D004F1C DynLd[0] CMT, row 0, ddl 2
+2018-05-22 17:19:32 info 405E4CFF-7EA3-274B-C4E4-18267D004F1C DynLd[0] CMT, row 0, ddl 2
+2018-05-22 17:19:33 info 405E4CFF-7EA3-274B-C4E4-18267D004F1C DynLd[0] CMT, row 200, ddl 0
+
+
+
+
+表对比结果：
+用户名  表名           源端差异行  备端差异行
+HUAN2	CONTRACTS_SEC	100	   100
